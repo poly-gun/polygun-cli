@@ -1,8 +1,9 @@
 package commands
 
 import (
-	"github.com/spf13/cobra"
 	"polygun-cli/internal/commands/example"
+
+	"github.com/spf13/cobra"
 )
 
 // Execute runs the root command and handles any CLI execution exception. Additionally,

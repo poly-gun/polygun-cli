@@ -5,8 +5,9 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/spf13/pflag"
 	"polygun-cli/internal/logging"
+
+	"github.com/spf13/pflag"
 )
 
 // Type string that implements Cobra's Type interface for valid string enumeration values.

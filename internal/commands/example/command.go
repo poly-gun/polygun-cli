@@ -7,9 +7,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/spf13/cobra"
 	"polygun-cli/internal/logging"
 	"polygun-cli/internal/types/output"
+
+	"github.com/spf13/cobra"
 )
 
 // Runtime, command-specific flag(s).

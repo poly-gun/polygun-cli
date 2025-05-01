@@ -6,10 +6,11 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/spf13/cobra"
 	"polygun-cli/internal/commands"
 	"polygun-cli/internal/logging"
 	"polygun-cli/internal/types/level"
+
+	"github.com/spf13/cobra"
 )
 
 var (

@@ -173,16 +173,14 @@ git-check-tree:
 	    echo "$(green-bold)Clean Working Tree$(reset)"; \
 	fi
 
+bump: test git-check-tree
+	@echo "$($(type)-upgrade)" > VERSION
 
 # (Patch) Release Targets
 
-bump-patch: test
-	@if ! git diff --quiet --exit-code; then \
-		echo "$(red-bold)Dirty Working Tree$(reset) - Commit Changes and Try Again"; \
-		exit 1; \
-	else \
-		echo "$(patch-upgrade)" > VERSION; \
-	fi
+bump-patch: test git-check-tree
+	@echo "$(blue-bold)Bumping Version$(reset): \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"
+	@echo "$(patch-upgrade)" > VERSION
 
 commit-patch: bump-patch
 	@echo "$(blue-bold)Tag-Release (Patch)$(reset): \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"
