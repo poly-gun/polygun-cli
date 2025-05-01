@@ -183,7 +183,8 @@ git-check-tree:
 	fi
 
 bump: test git-check-tree
-	@echo "$($(type)-upgrade)" > VERSION $<
+	@printf "$(green-bold)%s$(reset)\n" "Bumping Version"
+	@echo "$($(type)-upgrade)" > VERSION
 
 # (Patch) Release Targets
 
@@ -330,15 +331,13 @@ clean:
 
 .PHONY: prepare
 prepare:
-	@printf "$(green-bold)%s$(reset)" "Tidying and Reformatting Package"
+	@printf "$(green-bold)%s$(reset)\n" "Tidying and Reformatting Package"
 	@go mod tidy && go mod vendor
 	@goimports -w .
 	@go fmt ./...
-	@$(complete)
 
 
 .PHONY: test
 test: prepare
-	@$(information) Running Test Suite
+	@printf "$(green-bold)%s$(reset)\n" "Running Test Suite"
 	@go test -v --fullpath --cover --tags local ./...
-	@$(complete)
