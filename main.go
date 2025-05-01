@@ -24,6 +24,9 @@ var lvl level.Type = "info"
 // src represents the include-source-logging flag set by a persisted global flag.
 var src bool = false
 
+// // stderr represents the stderr flag set by persisted global flag.
+// var stderr bool = false
+
 func main() {
 	// The PersistentPreRun and PreRun functions will be executed before Run. PersistentPostRun and PostRun will be executed
 	// after Run. The Persistent*Run functions will be inherited by children if they do not declare their own. The *PreRun
@@ -37,6 +40,7 @@ func main() {
 	// - PersistentPostRun
 	//
 	// https://github.com/spf13/cobra/blob/main/site/content/user_guide.md
+	//
 
 	var root = &cobra.Command{
 		Use:         fmt.Sprintf("%s", logging.Executable()),
@@ -50,8 +54,15 @@ func main() {
 
 			logging.Level.Set(lvl.Level())
 
-			// Setup the default [slog.Logger].
-			handler := slog.NewJSONHandler(logging.LFD.Load(), &slog.HandlerOptions{AddSource: src, Level: &logging.Level, ReplaceAttr: logging.Replacements})
+			// Set the logging-file-descriptor if stderr.
+			// if stderr {
+			// 	logging.LFD.Store(os.Stderr)
+			// }
+
+			// Setup slog-specific logging.
+			writer := logging.LFD.Load()
+			options := &slog.HandlerOptions{AddSource: src, Level: &logging.Level, ReplaceAttr: logging.Replacements}
+			handler := slog.NewJSONHandler(writer, options)
 
 			logger := slog.New(handler)
 
@@ -83,8 +94,9 @@ func main() {
 		SilenceUsage:      false,
 	}
 
-	root.PersistentFlags().VarP(&lvl, "log-level", "x", "verbosity")
-	root.PersistentFlags().BoolVarP(&src, "include-source-logging", "s", false, "display runtime caller locations")
+	root.PersistentFlags().VarP(&lvl, "log-level", "z", "verbosity")
+	root.PersistentFlags().BoolVarP(&src, "include-source-logging", "x", false, "display runtime caller locations")
+	// root.PersistentFlags().BoolVarP(&stderr, "use-standard-error", "z", false, "redirect logs to stderr")
 
 	commands.Execute(root)
 }

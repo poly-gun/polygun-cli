@@ -23,7 +23,8 @@ var Command = &cobra.Command{
 	Use:        "example",
 	Aliases:    []string{},
 	SuggestFor: nil,
-	Short:      "The example's command short-description",
+	GroupID:    "examples",
+	Short:      "A template for future command(s)",
 	Long:       "The example's command long-description -- value should be in full sentences, and can span multiple lines.",
 	Example: strings.Join([]string{
 		fmt.Sprintf("  %s", "# General command usage"),
@@ -61,6 +62,7 @@ var Command = &cobra.Command{
 		return nil
 	},
 	TraverseChildren: true,
+	SilenceErrors:    true,
 }
 
 func init() {

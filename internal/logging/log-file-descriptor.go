@@ -5,9 +5,9 @@ import (
 	"sync/atomic"
 )
 
-// LFD represents a "log-file-descriptor". The default is [os.Stdout].
+// LFD represents a "log-file-descriptor".
 var LFD atomic.Pointer[os.File]
 
 func init() {
-	LFD.Store(os.Stdout)
+	LFD.Store(os.Stderr)
 }
