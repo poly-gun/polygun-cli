@@ -1,6 +1,6 @@
 version: 2
 
-project_name: example-cli
+project_name: polygun-cli
 
 env_files:
     github_token: ~/.config/goreleaser/github_token
@@ -46,7 +46,6 @@ brews:
 
         commit_msg_template: "[Chore]: Brew Formula Bump ({{ .ProjectName }}), {{ .Tag }}"
 
-
         homepage: "https://github.com/example-organization/example-cli"
 
         description: "CLI"
@@ -68,7 +67,7 @@ brews:
                 type: optional
 
         conflicts:
-            - example-cli
+            - polygun-cli
 
         repository:
             branch: main
