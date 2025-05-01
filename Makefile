@@ -34,6 +34,15 @@ else
 	GOBIN=$(shell go env GOBIN)
 endif
 
+define print-loading
+	@printf "$(green)Compiling... ["
+	@for i in $(shell seq 0 10 100); do \
+		printf "▓"; \
+		sleep 0.1; \
+	done
+	@printf "] 100%%$(reset)\n"
+endef
+
 # Setting SHELL to bash allows bash commands to be executed by recipes.
 SHELL = /usr/bin/env bash -o pipefail
 
@@ -174,7 +183,7 @@ git-check-tree:
 	fi
 
 bump: test git-check-tree
-	@echo "$($(type)-upgrade)" > VERSION
+	@echo "$($(type)-upgrade)" > VERSION $<
 
 # (Patch) Release Targets
 
@@ -321,7 +330,7 @@ clean:
 
 .PHONY: prepare
 prepare:
-	@$(information) Tidying and Reformatting Package
+	@printf "$(green-bold)%s$(reset)" "Tidying and Reformatting Package"
 	@go mod tidy && go mod vendor
 	@goimports -w .
 	@go fmt ./...
