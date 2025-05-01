@@ -184,6 +184,7 @@ git-check-tree:
 
 bump: test git-check-tree
 	@printf "$(green-bold)%s$(reset)\n" "Bumping Version"
+	echo $<
 	@echo "$($(type)-upgrade)" > VERSION
 
 # (Patch) Release Targets
