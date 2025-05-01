@@ -28,6 +28,9 @@ ifdef RELEASE_TYPE
     override type = RELEASE_TYPE
 endif
 
+# type-title := $(shell echo $(tr '[:lower:]' '[:upper:]' <<< ${type:0:1})${type:1})
+type-title = $(shell printf "%s" "$(shell tr '[:lower:]' '[:upper:]' <<< "$(type)")")
+
 ifeq (,$(shell go env GOBIN))
 	GOBIN=$(shell go env GOPATH)/bin
 else
@@ -183,9 +186,17 @@ git-check-tree:
 	fi
 
 bump: test git-check-tree
-	@printf "$(green-bold)%s$(reset)\n" "Bumping Version"
-	echo $<
+	@printf "$(green-bold)%s$(reset)\n" "Bumping Version: \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"
 	@echo "$($(type)-upgrade)" > VERSION
+
+commit-patch: bump
+	@echo "$(blue-bold)Tag-Release ($(type-title)$(reset): \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"
+	@git add VERSION
+	@git commit --message "Chore ($(type-title)) - Tag Release - $(version)"
+	@git push --set-upstream origin main
+	@git tag "v$(version)"
+	@git push origin "v$(version)"
+	@echo "$(green-bold)Published Tag$(reset): $(version)"
 
 # (Patch) Release Targets
 
