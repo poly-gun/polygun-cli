@@ -96,7 +96,7 @@ url = $(shell git config --get remote.origin.url | sed -r 's/.*(\@|\/\/)(.*)(\:|
 
 repository = $(shell basename -s .git $(shell git config --get remote.origin.url))
 organization = $(shell git remote -v | grep "(fetch)" | sed 's/.*\/\([^ ]*\)\/.*/\1/')
-package = $(shell git remote -v | grep "(fetch)" | sed 's/^origin[[:space:]]*//; s/[[:space:]]*(fetch)$$//' | sed 's/https:\/\///; s/git@//; s/\.git$$//; s/:/\//')
+package = $(shell git remote -v | grep "(fetch)" | sed 's/^origin[[:space:]]*//; s/[[:space:]]*(fetch)$$//' | sed 's/https:\/\///; s/git@//; s/\.git$$//; s/:/\//' | sed -E 's|^ssh/+||')
 
 version = $(shell [ -f VERSION ] && head VERSION || echo "0.0.0")
 
