@@ -76,7 +76,7 @@ brews:
 
         repository:
             branch: main
-            owner: polygun-cli
+            owner: poly-gun
             name: homebrew-taps
 
 #      install: | # https://github.com/Homebrew/brew/blob/master/docs/Formula-Cookbook.md
