@@ -39,7 +39,7 @@ archives:
                 formats: [ "zip" ]
 
 brews:
-    -   name: polygun-cli
+    -   name: polygun
 
         directory: Formula
 
@@ -71,8 +71,8 @@ brews:
             -   name: bash
                 type: optional
 
-        conflicts:
-            - polygun-cli
+        # conflicts:
+        #     - polygun-cli
 
         repository:
             branch: main
