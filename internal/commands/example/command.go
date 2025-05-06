@@ -25,7 +25,7 @@ var Command = &cobra.Command{
 	Aliases:    []string{},
 	SuggestFor: nil,
 	GroupID:    "examples",
-	Short:      "A template for future command(s)",
+	Short:      "An example command and template",
 	Long:       "The example's command long-description -- value should be in full sentences, and can span multiple lines.",
 	Example: strings.Join([]string{
 		fmt.Sprintf("  %s", "# General command usage"),

@@ -37,15 +37,6 @@ else
 	GOBIN=$(shell go env GOBIN)
 endif
 
-define print-loading
-	@printf "$(green)Compiling... ["
-	@for i in $(shell seq 0 10 100); do \
-		printf "▓"; \
-		sleep 0.1; \
-	done
-	@printf "] 100%%$(reset)\n"
-endef
-
 # Setting SHELL to bash allows bash commands to be executed by recipes.
 SHELL = /usr/bin/env bash -o pipefail
 

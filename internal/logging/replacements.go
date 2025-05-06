@@ -28,10 +28,8 @@ func Replacements(groups []string, a slog.Attr) slog.Attr {
 			a.Value = slog.StringValue("NOTICE")
 		case v <= slog.LevelWarn:
 			a.Value = slog.StringValue("WARNING")
-		case v <= slog.LevelError:
+		case v >= slog.LevelError:
 			a.Value = slog.StringValue("ERROR")
-		case v <= slog.Level(12):
-			a.Value = slog.StringValue("EMERGENCY")
 		default:
 			a.Value = slog.StringValue("ERROR")
 		}

@@ -14,13 +14,12 @@ import (
 type Type string
 
 const (
-	Trace     Type = "trace"
-	Debug     Type = "debug"
-	Info      Type = "info"
-	Notice    Type = "notice"
-	Warning   Type = "warning"
-	Error     Type = "error"
-	Emergency Type = "emergency"
+	Trace   Type = "trace"
+	Debug   Type = "debug"
+	Info    Type = "info"
+	Notice  Type = "notice"
+	Warning Type = "warning"
+	Error   Type = "error"
 )
 
 // String is used both by fmt.Print and by Cobra in help text
@@ -31,18 +30,18 @@ func (o *Type) String() string {
 // Set must have pointer receiver so it doesn't change the value of a copy
 func (o *Type) Set(v string) error {
 	switch strings.ToLower(v) {
-	case "trace", "debug", "info", "notice", "warning", "error", "emergency":
+	case "trace", "debug", "info", "notice", "warning", "error":
 		*o = Type(v)
 
 		return nil
 	default:
-		return errors.New("must be one of \"trace\", \"debug\", \"info\", \"notice\", \"warning\", \"error\", \"emergency\"")
+		return errors.New("must be one of \"trace\", \"debug\", \"info\", \"notice\", \"warning\", \"error\"")
 	}
 }
 
 // Type is only used in help text
 func (o *Type) Type() string {
-	return "[\"trace\"|\"debug\"|\"info\"|\"notice\"|\"warning\"|\"error\"|\"emergency\"]"
+	return "[\"trace\"|\"debug\"|\"info\"|\"notice\"|\"warning\"|\"error\"]"
 }
 
 // Level - Exported constants representing [slog.Level].
@@ -80,8 +79,6 @@ func (o *Type) Level() slog.Level {
 	case Error:
 		return logging.LevelError
 
-	case Emergency:
-		return logging.LevelEmergency
 	default:
 		return logging.LevelInfo
 	}
