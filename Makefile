@@ -121,7 +121,9 @@ distribute-windows = mkdir -p distribution && mv *.zip distribution
 # Default
 # ------------------------------------------------------------------------------------
 
-all :: pre-requisites prepare test-release $(type)-release
+# all :: pre-requisites prepare test-release release overwrite-private-homebrew-download-strategy install
+
+all :: pre-requisites prepare test-release release install
 
 # ====================================================================================
 # Pre-Requisites
@@ -130,7 +132,7 @@ all :: pre-requisites prepare test-release $(type)-release
 pre-requisites:
 	@command -v brew 2>&1> /dev/null || bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	@command -v goreleaser 2>&1> /dev/null || brew install goreleaser
-	@command -v pre-commit 2>&1> /dev/null || brew install pre-commit && pre-commit install .
+	@command -v pre-commit 2>&1> /dev/null || brew install pre-commit && pre-commit install
 	@command -v go 2>&1> /dev/null || brew install go
 
 # ====================================================================================
@@ -163,6 +165,7 @@ overwrite-private-homebrew-download-strategy:
 # ------------------------------------------------------------------------------------
 
 test-release:
+	@printf "$(green-bold)%s$(reset)\n" "Testing Release: $(yellow-bold)$(package)$(reset) - $(white-bold)$(version)$(reset)"
 	@goreleaser release --snapshot --clean
 
 git-check-tree:
@@ -180,14 +183,18 @@ bump: test git-check-tree
 	@printf "$(green-bold)%s$(reset)\n" "Bumping Version: \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"
 	@echo "$($(type)-upgrade)" > VERSION
 
-commit-patch: bump
-	@echo "$(blue-bold)Tag-Release ($(type-title)$(reset): \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"
+commit: bump
+	@echo "$(blue-bold)Tag-Release$(reset) ($(type-title)): $(yellow-bold)$(package)$(reset) - $(white-bold)$(version)$(reset)"
 	@git add VERSION
 	@git commit --message "Chore ($(type-title)) - Tag Release - $(version)"
 	@git push --set-upstream origin main
 	@git tag "v$(version)"
 	@git push origin "v$(version)"
-	@echo "$(green-bold)Published Tag$(reset): $(version)"
+
+release: commit
+	@echo "$(blue-bold)Deployment$(reset) ($(type-title)): \"$(yellow-bold)$(package)$(reset)\" - $(white-bold)$(version)$(reset)"
+	@goreleaser release --clean
+	@echo "$(green-bold)Successful$(reset): $(version)"
 
 # (Patch) Release Targets
 
@@ -337,7 +344,7 @@ prepare:
 	@printf "$(green-bold)%s$(reset)\n" "Tidying and Reformatting Package"
 	@go mod tidy && go mod vendor
 	@goimports -w .
-	@go fmt ./...
+	@go fmt ./internal/...
 
 
 .PHONY: test

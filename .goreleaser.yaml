@@ -4,6 +4,9 @@ project_name: polygun-cli
 
 env_files:
     github_token: ~/.config/goreleaser/github_token
+    gitlab_token: ~/.config/goreleaser/gitlab_token
+
+force_token: github
 
 before:
     hooks:
@@ -23,7 +26,7 @@ builds:
             - darwin
 
 archives:
-    -   format: tar.gz
+    -   formats: [ "tar.gz" ]
         name_template: >-
             {{ .ProjectName }}-
             {{- .Os }}-
@@ -33,7 +36,7 @@ archives:
             {{- if .Arm }}v{{ .Arm }}{{ end }}
         format_overrides:
             -   goos: windows
-                format: zip
+                formats: [ "zip" ]
 
 brews:
     -   name: polygun-cli
@@ -46,15 +49,17 @@ brews:
 
         commit_msg_template: "[Chore]: Brew Formula Bump ({{ .ProjectName }}), {{ .Tag }}"
 
-        homepage: "https://github.com/example-organization/example-cli"
+        homepage: "https://github.com/poly-gun/polygun-cli"
 
         description: "CLI"
 
         license: "MIT"
 
         skip_upload: false
+        # skip_upload: true
 
         download_strategy: CurlDownloadStrategy
+        # download_strategy: GitDownloadStrategy
 
         dependencies:
             -   name: git
