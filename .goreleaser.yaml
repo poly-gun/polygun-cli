@@ -1,6 +1,6 @@
 version: 2
 
-project_name: polygun-cli
+project_name: polygun
 
 env_files:
     github_token: ~/.config/goreleaser/github_token
@@ -63,7 +63,6 @@ brews:
 
         dependencies:
             -   name: git
-                os: mac
             -   name: zsh
                 type: optional
             -   name: fish
@@ -89,7 +88,18 @@ brews:
 #        end
 
 changelog:
-    use: github
+    # Changelog generation implementation to use.
+    #
+    # Valid options are:
+    # - `git`: uses `git log`;
+    # - `github`: uses the compare GitHub API, appending the author username to the changelog.
+    # - `gitlab`: uses the compare GitLab API, appending the author name and email to the changelog (requires a personal access token).
+    # - `gitea`: uses the compare Gitea API, appending the author username to the changelog.
+    # - `github-native`: uses the GitHub release notes generation API, disables groups, sort, and any further formatting features.
+    #
+    # Default: 'git'.
+    use: git
+    # use: gitlab
 
     sort: asc
 
